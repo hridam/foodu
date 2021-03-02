@@ -68,9 +68,9 @@
                      <a href="">+ ADD to cart</a>
                    </div>
                    <div class="qty">
-                     <button onclick="increase()">+</button>
+                     <button onclick="increase('.$rows['ID'].')">+</button>
                      <input type="text" width="5" value="1"  id="'.$rows['ID'].'" >
-                     <button onclick="decrease()">-</button>
+                     <button onclick="decrease('.$rows['ID'].')">-</button>
      
                    </div>
      
@@ -83,39 +83,7 @@
            
         
          ';
-         echo $rows['ID']."
-         <script>
-  function increase() {
-
-    var x = document.getElementById('".$rows['ID']."').value;
-    console.log(x);
-    var a = parseInt(x);
-    if(a<5){
-      a++;
-      console.log(a);
-    document.getElementById('".$rows['ID']."').value = a;
-    }
-    
    
-  }
-
-  function decrease() {
-
-    var x = document.getElementById('".$rows['ID']."').value;
-    console.log(typeof x);
-    var a = parseInt(x);
-    if(a>".$rows['ID']."){
-      a--;
-      console.log(typeof a);
-    document.getElementById('".$rows['ID']."').value = a;
-    
-    }
-    
-    
-  }
-</script>
-
-         ";
           }
         }
       } else {
@@ -141,30 +109,30 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
     -->
   <script>
-    function increase() {
+    function increase(id) {
 
-      var x = document.getElementById("qty").value;
+      var x = document.getElementById(id).value;
       console.log(x);
       var a = parseInt(x);
       if(a<5){
         a++;
       //   console.log(a);
-      document.getElementById('qty').value = a;
+      document.getElementById(id).value = a;
       }
       
      
     }
 
-    function decrease() {
+    function decrease(id) {
 
-      var x = document.getElementById("qty").value;
+      var x = document.getElementById(id).value;
       console.log(x);
       var a = parseInt(x);
       if(a>1){
         a--;
       //   console.log(a);
-      document.getElementById('qty').value = a;
-      
+      document.getElementById(id).value = a;
+    
       }
       
       
