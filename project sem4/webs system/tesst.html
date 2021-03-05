@@ -1,49 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=".$rows[ID].".0">
-  <title>Document</title>
-</head>
+<html>
+
 <body>
-  
-  <div class="qty">
-    <button onclick="increase()">+</button>
-    <input type="text" width="5" value='".$rows[ID]."'  id="".$rows[ID]."" >
-    <button onclick="decrease()">-</button>
 
-  </div>
-<script>
-  function increase() {
+  <h2>JavaScript Arrays</h2>
+  <p id='likes'>0</p>
+  <button onclick="like()">like</button>
 
-    var x = document.getElementById('".$rows[ID]."').value;
-    console.log(x);
-    var a = parseInt(x);
-    if(a<5){
-      a++;
-      console.log(a);
-    document.getElementById('".$rows[ID]."').value = a;
+  <script>
+
+    function like(){
+      i = 0;
+      i =1
+      console.log(i)
+      // document.getElementID('likes').innerHTML = i;
     }
-    
-   
-  }
-
-  function decrease() {
-
-    var x = document.getElementById('".$rows[ID]."').value;
-    console.log(typeof x);
-    var a = parseInt(x);
-    if(a>".$rows[ID]."){
-      a--;
-      console.log(typeof a);
-    document.getElementById('".$rows[ID]."').value = a;
-    
-    }
-    
-    
-  }
-</script>
+  </script>
 
 </body>
+
 </html>
