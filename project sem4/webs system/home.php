@@ -11,10 +11,10 @@
 	<link rel="stylesheet" href="styles.css">
 	
 </head>
-<?php
+<!-- <?php
 $a = $_GET['table'];
 echo $a;
-?>
+?> -->
 <body>
 
 	<header>

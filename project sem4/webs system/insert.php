@@ -60,18 +60,23 @@
 			</div>
 		</form>
 	</div>
+		<a href="destroy.php">logout</a>
 </body>
 </html>
 
 
 
 <?php
+
+session_start();
+echo $_SESSION['email'];
+
 	$msg = "";
 
 	 if(isset($_POST['upload'])){
 	 	$target = "C:/wamp64/www/project sem4/".basename($_FILES['image']['name']);
 
-	 	$db = mysqli_connect("localhost", "root", "", "foodu");
+	 	include("dbcon.php");
 		 $pnames = $_POST['pname'];
 		 $image = $_FILES['image']['name'];
 	 	$price = $_POST['price'];
@@ -87,4 +92,7 @@
 	 		$msg = "there was a problem uploading";
 	 	}
 	 }
+
+	 
 ?>
+

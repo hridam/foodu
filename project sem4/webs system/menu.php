@@ -24,6 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html lang="en">
 
 <head>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
-  <title>Hello, world!</title>
+  <title>Menu</title>
   <style>
     input[type='text'] {
       width: 10%;
@@ -39,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     body {
-      /* background-image: url('hell.jpg'); */
+      background-image: url('hell.jpg');
       background-position: center;
       background-size: cover;
       background-attachment: fixed;
@@ -47,17 +49,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     .head {
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.8);
       height: 50%;
+    }
+
+    #nav{
+      z-index: 1000;
+    }
+    #card{
+      transform: translateX(696%);
     }
   </style>
 </head>
 
 <body>
+  <div  class="position-fixed w-100" id="nav">
   <div class="head">
-    <h1 class="text-center text-white">menu</h1>
-    <button type="button" class="btn float-end" data-toggle="modal" data-target="#exampleModal">
-      <svg xmlns="http:/ /www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart4 text-white mx-3" style="float:right" viewBox="0 0 16 16">
+    <h1 class="text-center text-white p-2">menu</h1>
+    <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" id="card">
+      <svg xmlns="http:/ /www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart4 text-white"  viewBox="0 0 16 16">
         <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
       </svg>
 
@@ -65,13 +75,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
   </div>
+  </div>
   <div class="container">
 
 
     <div class="container  ">
 
       <?php
-      $con = mysqli_connect("localhost", "root", "", "foodu");
+      include("dbcon.php");
       if ($con) {
         // echo 'connection';
         $q = "select * from cate";
@@ -96,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               echo '
          
            <div class="card mb-3 float-start m-1" style="max-width: 540px; ">
-             <div class="row g-0">
+             <div class="row g-0" >
                <div class="col-md-4">
                  <img src="images/' . $rows['Image'] . '" alt="..." width="100%" height="100%">+
                </div>
@@ -113,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                    <div class="qty">
                      <button onclick="increase(' . $rows['ID'] . ')">+</button>
-                     <input type="text" width="5" value="1"  id="' . $rows['ID'] . '" >
+                     <input type="text" width="5" value="1"  id="' . $rows['ID'] . '" readonly>
                      <button onclick="decrease(' . $rows['ID'] . ')">-</button>
      
                    </div>
@@ -274,17 +285,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     }
 
-    function filter(a) {
-      tr = a.str_replace('<tr>', '')
-      trr = tr.str_replace('</tr>', '')
-      return trr
-    }
+  
+//fucntion for the order button
+/*when a user click on the order button this function is runned 
+in this function at first it creates an array and and then shows us to confirm your order
+and it it finds length of the row of the table 
+and the
+and then in the x value it stores the  */
+function order() {
 
-    function order() {
-
+          orders = [];
+      alert('Order confirm!');
       var lengthOfTable = table.rows.length;
       console.log('the length' + lengthOfTable);
-      x = document.getElementById('mytable').rows[0].cells;
+      // x = document.getElementById('mytable').rows[0].cells;
       // console.log(x[0])
 
       for (i = 1; i < lengthOfTable; i++) {
@@ -292,12 +306,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         x = document.getElementById('mytable').rows[i].cells;
         for (j = 0; j <= 0; j++) {
           // console.log('this is'+x[0].innerHTML);
-          item = [];
-          item['name'] = x[0].innerHTML
-          item['price'] = x[1].innerHTML
-          item['qty'] = x[2].innerHTML
-          item['total'] = x[3].innerHTML
-          orders = [];
+          orders.push({name:x[0].innerHTML,price:x[1].innerHTML,qty:x[2].innerHTML,total:x[3].innerHTML})
+      //   console.log(x[0].innerHTML)
+      //   console.log( x[1].innerHTM)
+      // console.log(x[2].innerHTML)
+      //     console.log(x[3].innerHTML)
+          // orders = [];
 
           // console.log(orders)
 
@@ -309,15 +323,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           // document.forms["sampleForm"].submit();
 
         }
-        orders = item;
-        console.log(orders)
-        
-          
-          a = document.getElementById.value = JSON.stringify(orders);
-          if (a) {
-            console.log('this is a json file' + a);
+        // orders = item;
+        // console.log(orders)
 
-          }
+        
           // if(a!=null){
           //   document.getElementById("myform").submit();
 
@@ -330,6 +339,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
       }
+      console.log(orders)
+          a = document.getElementById.value = JSON.stringify(orders);
+          if (a) {
+            console.log('this is a jso  n file' + a);
+            window.location='orderProcessing.php?orders='+a;
+
+          }
     }
 
     function deleteRow(r) {
