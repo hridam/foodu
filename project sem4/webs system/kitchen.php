@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <!-- <meta http-equiv="refresh" content="1"> -->
+  <meta http-equiv="refresh" content="3">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -13,116 +13,105 @@
 </head>
 
 <body>
-  <table border="1">
-    <tr>
-      <td>
-      Table : 1
-        <table class="table table-striped table-dark">
+  <div class="container">
+    <table border="1">
+      <tr>
+        <?php
+        include("dbcon.php");
+        $no_of_table = 'SELECT * FROM orders';
+        $numTable = mysqli_query($con, $no_of_table);
+        $numberOfrows = mysqli_num_rows($numTable);
+        $i = 1;
+        if ($numberOfrows != null) {
+
+
+          while ($i <= $numberOfrows) {
+            if ($i % 3 == 1) {
+              echo '</tr><tr>';
+            }
+            echo '
+        <td>
+       <form action="kitchen.php" method="POST">
+        <input type="hidden" name="tableno" id="' . $i . '" value=' . $i . '>
+        
+        <button class="btn btn-primary float-right " > RECEIVED </button>
+        </form>
+        Table : ' . $i . '
+        <table class="table ">
           <thead>
-            <tr>
+            <tr class="table-primary">
               <th scope="col">NAME</th>
               <th scope="col">QTY</th>
               <th scope="col">TABLE_NO</th>
               <th scope="col">ORDER_STAT</th>
             </tr>
-          </thead>
-          <tbody>
-            <?php
-            include("dbcon.php");
-            $sql = " SELECT * FROM orders WHERE table_no = 1 ";
+     
+        ';
+
+            $sql = " SELECT * FROM orders WHERE table_no = $i ";
             $result = mysqli_query($con, $sql);
             if ($result) {
               while ($row = mysqli_fetch_assoc($result)) {
-                echo '
-              <tr>
-              <td>' . $row['order_name'] . '</td>
-              <td>' . $row['order_qty'] . '</td>
-              <td>' . $row['table_no'] . '</td>
-              <td>' . $row['Order_stat'] . '</td>
-              <td>
-              <form method="POST">
-              <input type="hidden" name="received" value="' . $row['order_id'] . '" id="' . $row['order_id'] . '"/>
-              <button onclick="order_rec(' . $row['order_id'] . ')"> RECEIVED </button>
-              </form>
-              </td>
-            </tr>';
+                if (isset($row['order_name'])) {
+                  if ($row['Order_stat'] == 'received') {
+                    echo '
+                <tr class="bg-success">';
+                    echo '
+                <td>' . $row['order_name'] . '</td>
+                <td>' . $row['order_qty'] . '</td>
+                <td>' . $row['table_no'] . '</td>
+                <td>' . $row['Order_stat'] . '</td>
+               
+              </tr>';
+                  } else {
+                    echo '
+                <tr class="bg-danger">';
+                    echo '
+                <td>' . $row['order_name'] . '</td>
+                <td>' . $row['order_qty'] . '</td>
+                <td>' . $row['table_no'] . '</td>
+                <td>' . $row['Order_stat'] . '</td>
+               
+              </tr>';
+                  }
+                }
+               
               }
-            }
-
-            extract($_POST);
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-              $received;
-
-              $up = "UPDATE `orders` SET Order_stat = 'received' WHERE order_id = 1 ";
-              $res = mysqli_query($con, $up);
-              if ($res) {
-                echo 'updated';
-              } else {
-                echo 'wrong query';
-              }
-            }
-            ?>
+              echo '
+          </thead>
+          <tbody>
           </tbody>
         </table>
+      
       </td>
-      <td>
-      Table : 2
-      <table class="table table-striped table-dark">
-          <thead>
-            <tr>
-              <th scope="col">NAME</th>
-              <th scope="col">QTY</th>
-              <th scope="col">TABLE_NO</th>
-              <th scope="col">ORDER_STAT</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-            $sql = " SELECT * FROM orders WHERE table_no = 2 ";
-            $result = mysqli_query($con, $sql);
-            if ($result) {
-              while ($row = mysqli_fetch_assoc($result)) {
-                echo '
-              <tr>
-              <td>' . $row['order_name'] . '</td>
-              <td>' . $row['order_qty'] . '</td>
-              <td>' . $row['table_no'] . '</td>
-              <td>' . $row['Order_stat'] . '</td>
-              <td>
-              <form method="POST">
-              <input type="hidden" name="received" value="' . $row['order_id'] . '" id="' . $row['order_id'] . '"/>
-              <button onclick="order_rec(' . $row['order_id'] . ')"> RECEIVED </button>
-              </form>
-              </td>
-            </tr>';
-              }
+          ';
             }
+            $i++;
+          }
+        }
 
-            extract($_POST);
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-              $received;
 
-              $up = "UPDATE `orders` SET Order_stat = 'received' WHERE order_id = 2 ";
-              $res = mysqli_query($con, $up);
-              if ($res) {
-                echo 'updated';
-              } else {
-                echo 'wrong query';
-              }
-            }
-            ?>
-      </td>
-    </tr>
-  </table>
-  </table>
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+          $tableno = $_POST['tableno'];
+          echo $tableno;
+          $up = "UPDATE `orders` SET Order_stat = 'received' WHERE table_no = $tableno ";
+          $res = mysqli_query($con, $up);
+          if ($res) {
+            echo 'updated';
+            // header('location:kitchen.php?updated=true');
 
-  <script>
-    function order_rec(b) {
-      var r = document.getElementById(b).value;
-      r.submit();
-      console.log(r);
-    }
-  </script>
+            die;
+          } else {
+            echo 'wrong query';
+          }
+        }
+        ?>
+
+      </tr>
+    </table>
+  </div>
+
+
 
 
   <!-- Optional JavaScript -->
