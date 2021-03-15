@@ -24,8 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html lang="en">
 
 <head>
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,6 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   <title>Menu</title>
   <style>
+    * {
+      font-family: sans-serif;
+
+    }
+
     input[type='text'] {
       width: 10%;
       text-align: center;
@@ -53,34 +58,50 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       height: 50%;
     }
 
-    #nav{
+    #nav {
       z-index: 1000;
     }
-    #card{
+
+    #card {
       transform: translateX(696%);
     }
   </style>
 </head>
 
 <body>
-  <div  class="position-fixed w-100" id="nav">
-  <div class="head">
-    <h1 class="text-center text-white p-2">menu</h1>
-    <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" id="card">
-      <svg xmlns="http:/ /www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart4 text-white"  viewBox="0 0 16 16">
-        <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
-      </svg>
+  <div class="position-fixed w-100" id="nav">
+    <div class="head">
+      <h1 class="text-center text-white p-2">menu</h1>
 
-    </button>
+      <div class="container ">
+        <div class="input-group d-flex justify-content-center">
+          <div class="form-outline ">
+            <input id="search-input" type="search" id="form1" class="form-control" onkeyup="ajax(this.value)" />
+            <label class="form-label" for="form1">Search</label>
+          </div>
+          
+          </button>
+        </div>
+      </div>
+
+      <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" id="card">
+        <svg xmlns="http:/ /www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart4 text-white" viewBox="0 0 16 16">
+          <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+
+        </svg>
+        <p class="text-white position-absolute " style="font-weight: 200;transform: translate(-21px,-25px);font-size: 20px;" id='no'>0</p>
 
 
-  </div>
+      </button>
+
+
+    </div>
   </div>
   <div class="container">
 
 
     <div class="container  ">
-
+      <div id="test"></div>
       <?php
       include("dbcon.php");
       if ($con) {
@@ -249,6 +270,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     var clicked = 0;
 
     function addCart(qty, name, price) {
+
+      var no = document.getElementById('no').innerHTML;
+      a = parseInt(no) + 1;
+      document.getElementById('no').innerHTML = a;
       var qtye = document.getElementById(qty).value;
       // console.log(qtye);
       // console.log(name);
@@ -285,16 +310,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     }
 
-  
-//fucntion for the order button
-/*when a user click on the order button this function is runned 
-in this function at first it creates an array and and then shows us to confirm your order
-and it it finds length of the row of the table 
-and the
-and then in the x value it stores the  */
-function order() {
 
-          orders = [];
+    //fucntion for the order button
+    /*when a user click on the order button this function is runned 
+    in this function at first it creates an array and and then shows us to confirm your order
+    and it it finds length of the row of the table 
+    and the
+    and then in the x value it stores the  */
+    function order() {
+
+      orders = [];
       alert('Order confirm!');
       var lengthOfTable = table.rows.length;
       console.log('the length' + lengthOfTable);
@@ -306,11 +331,16 @@ function order() {
         x = document.getElementById('mytable').rows[i].cells;
         for (j = 0; j <= 0; j++) {
           // console.log('this is'+x[0].innerHTML);
-          orders.push({name:x[0].innerHTML,price:x[1].innerHTML,qty:x[2].innerHTML,total:x[3].innerHTML})
-      //   console.log(x[0].innerHTML)
-      //   console.log( x[1].innerHTM)
-      // console.log(x[2].innerHTML)
-      //     console.log(x[3].innerHTML)
+          orders.push({
+            name: x[0].innerHTML,
+            price: x[1].innerHTML,
+            qty: x[2].innerHTML,
+            total: x[3].innerHTML
+          })
+          //   console.log(x[0].innerHTML)
+          //   console.log( x[1].innerHTM)
+          // console.log(x[2].innerHTML)
+          //     console.log(x[3].innerHTML)
           // orders = [];
 
           // console.log(orders)
@@ -326,11 +356,11 @@ function order() {
         // orders = item;
         // console.log(orders)
 
-        
-          // if(a!=null){
-          //   document.getElementById("myform").submit();
 
-          // }
+        // if(a!=null){
+        //   document.getElementById("myform").submit();
+
+        // }
         // }
 
         // else{
@@ -340,17 +370,38 @@ function order() {
 
       }
       console.log(orders)
-          a = document.getElementById.value = JSON.stringify(orders);
-          if (a) {
-            console.log('this is a jso  n file' + a);
-            window.location='orderProcessing.php?orders='+a;
+      a = document.getElementById.value = JSON.stringify(orders);
+      if (a) {
+        console.log('this is a jso  n file' + a);
+        window.location = 'orderProcessing.php?orders=' + a;
 
-          }
+      }
     }
 
     function deleteRow(r) {
+      var no = document.getElementById('no').innerHTML;
+      a = parseInt(no)-1;
+      document.getElementById('no').innerHTML = a;
       var i = r.parentNode.parentNode.rowIndex;
       document.getElementById("mytable").deleteRow(i);
+    }
+  </script>
+  <script>
+    // ajax ko lagi
+    function ajax(str) {
+      if (str.length == 0) {
+        document.getElementById("test").innerHTML = "";
+        return;
+      } else {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("test").innerHTML = this.responseText;
+          }
+        };
+        xmlhttp.open("GET", "test.php?q=" + str, true);
+        xmlhttp.send();
+      }
     }
   </script>
 
